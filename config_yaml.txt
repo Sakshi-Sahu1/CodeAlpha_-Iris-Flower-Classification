@@ -1,0 +1,166 @@
+# Iris Classification Project Configuration
+# ===========================================
+
+# Project Information
+project:
+  name: "Iris Classification Tutorial"
+  version: "1.0.0"
+  description: "Complete Machine Learning Tutorial for Iris Flower Classification"
+  author: "Your Name"
+  email: "your.email@example.com"
+
+# Data Configuration
+data:
+  source: "sklearn"  # Options: sklearn, csv, url
+  csv_path: "data/raw/iris.csv"
+  url: "https://example.com/iris.csv"
+  test_size: 0.2
+  validation_size: 0.2
+  random_state: 42
+  stratify: true
+
+# Feature Engineering
+features:
+  scaling: true
+  scaling_method: "standard"  # Options: standard, minmax, robust, quantile
+  feature_selection: false
+  selection_method: "mutual_info"  # Options: mutual_info, chi2, f_classif
+  n_features: 4
+
+# Model Configuration
+models:
+  random_forest:
+    enabled: true
+    n_estimators: 100
+    random_state: 42
+    n_jobs: -1
+  
+  logistic_regression:
+    enabled: true
+    max_iter: 200
+    random_state: 42
+  
+  svm:
+    enabled: true
+    kernel: "rbf"
+    random_state: 42
+  
+  knn:
+    enabled: true
+    n_neighbors: 3
+  
+  decision_tree:
+    enabled: true
+    random_state: 42
+  
+  naive_bayes:
+    enabled: true
+
+# Hyperparameter Tuning
+hyperparameter_tuning:
+  enabled: true
+  method: "grid_search"  # Options: grid_search, random_search, bayesian
+  cv_folds: 5
+  scoring: "accuracy"
+  n_jobs: -1
+  
+  # Grid search parameters
+  param_grids:
+    random_forest:
+      n_estimators: [50, 100, 200]
+      max_depth: [3, 5, 7, null]
+      min_samples_split: [2, 5, 10]
+    
+    svm:
+      C: [0.1, 1, 10, 100]
+      gamma: ["scale", "auto", 0.001, 0.01, 0.1, 1]
+      kernel: ["rbf", "linear"]
+    
+    knn:
+      n_neighbors: [3, 5, 7, 9, 11]
+      weights: ["uniform", "distance"]
+      metric: ["euclidean", "manhattan"]
+    
+    decision_tree:
+      max_depth: [3, 5, 7, 10, null]
+      min_samples_split: [2, 5, 10]
+      min_samples_leaf: [1, 2, 4]
+
+# Evaluation Configuration
+evaluation:
+  cross_validation:
+    enabled: true
+    cv_folds: 5
+    scoring: "accuracy"
+  
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall" 
+    - "f1_score"
+    - "roc_auc"
+  
+  confusion_matrix: true
+  classification_report: true
+  feature_importance: true
+
+# Visualization Configuration
+visualization:
+  enabled: true
+  figure_size: [10, 8]
+  dpi: 300
+  style: "default"  # Options: default, seaborn, ggplot
+  color_palette: "husl"
+  save_figures: true
+  figure_format: "png"  # Options: png, jpg, pdf, svg
+
+# Model Persistence
+model_persistence:
+  enabled: true
+  save_path: "models/"
+  model_format: "joblib"  # Options: joblib, pickle
+  include_timestamp: true
+  save_scaler: true
+  save_encoder: true
+
+# Logging Configuration
+logging:
+  enabled: true
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_handler: true
+  console_handler: true
+  log_file: "logs/iris_classification.log"
+
+# Output Configuration
+output:
+  results_dir: "results/"
+  figures_dir: "results/figures/"
+  reports_dir: "results/reports/"
+  models_dir: "models/"
+  
+  # Report formats
+  generate_html_report: true
+  generate_pdf_report: false
+  generate_markdown_report: true
+
+# Reproducibility
+reproducibility:
+  random_seed: 42
+  set_global_seed: true
+
+# Performance
+performance:
+  n_jobs: -1  # Use all available cores
+  memory_usage_monitoring: false
+  
+# Development/Debug
+debug:
+  enabled: false
+  verbose: true
+  profile_performance: false
+  save_intermediate_results: false
+
+# Environment specific configs can override these defaults
+# Use environment variables with prefix IRIS_CONFIG_
+# Example: IRIS_CONFIG_DATA__TEST_SIZE=0.3

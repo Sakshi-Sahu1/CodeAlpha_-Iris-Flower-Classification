@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  iris-classifier:
+    build: .
+    container_name: iris-ml-tutorial
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./results:/app/results
+    environment:
+      - PYTHONPATH=/app
+    command: python iris_classification_tutorial.py
+    
+  jupyter:
+    build: .
+    container_name: iris-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./:/app
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./results:/app/results
+    environment:
+      - PYTHONPATH=/app
+    command: >
+      bash -c "pip install jupyterlab &&
+               jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+               --NotebookApp.token='' --NotebookApp.password=''"
+    
+  # Optional: MLflow tracking server
+  mlflow:
+    build: .
+    container_name: iris-mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/app/mlruns
+    environment:
+      - PYTHONPATH=/app
+    command: >
+      bash -c "pip install mlflow &&
+               mlflow server --host 0.0.0.0 --port 5000"
+
+networks:
+  default:
+    name: iris-ml-network

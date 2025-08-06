@@ -1,0 +1,59 @@
+# Core Machine Learning Libraries
+numpy>=1.21.0
+pandas>=1.3.0
+scikit-learn>=1.0.0
+
+# Data Visualization
+matplotlib>=3.4.0
+seaborn>=0.11.0
+
+# Jupyter Notebook Support
+jupyter>=1.0.0
+ipykernel>=6.0.0
+ipywidgets>=7.6.0
+
+# Model Persistence
+joblib>=1.0.0
+
+# Development and Testing
+pytest>=6.0.0
+pytest-cov>=2.12.0
+pytest-mock>=3.6.0
+
+# Code Quality
+flake8>=3.9.0
+black>=21.0.0
+isort>=5.9.0
+
+# Documentation
+sphinx>=4.0.0
+sphinx-rtd-theme>=0.5.0
+
+# Configuration Management
+pyyaml>=5.4.0
+
+# Logging and Utilities
+python-dotenv>=0.19.0
+click>=8.0.0
+
+# Optional: Advanced ML Libraries (uncomment if needed)
+# xgboost>=1.4.0
+# lightgbm>=3.2.0
+# catboost>=0.26.0
+
+# Optional: Deep Learning (uncomment if needed)
+# tensorflow>=2.6.0
+# torch>=1.9.0
+# torchvision>=0.10.0
+
+# Optional: Hyperparameter Optimization (uncomment if needed)
+# optuna>=2.10.0
+# hyperopt>=0.2.5
+
+# Optional: Model Interpretation (uncomment if needed)
+# shap>=0.39.0
+# lime>=0.2.0
+
+# Optional: Data Validation (uncomment if needed)
+# great-expectations>=0.13.0
+# pandera>=0.8.0

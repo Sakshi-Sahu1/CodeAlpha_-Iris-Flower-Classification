@@ -1,0 +1,170 @@
+# Iris Classification Tutorial - Makefile
+# =====================================
+
+.PHONY: help install install-dev test lint format clean docker-build docker-run docs
+
+# Default target
+help: ## Show this help message
+	@echo "Available commands:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+# Installation
+install: ## Install package and dependencies
+	pip install -e .
+
+install-dev: ## Install package with development dependencies
+	pip install -e ".[dev]"
+	pip install -r requirements.txt
+
+# Testing
+test: ## Run tests with pytest
+	pytest tests/ -v --cov=src --cov-report=html --cov-report=term
+
+test-verbose: ## Run tests with verbose output
+	pytest tests/ -v -s --cov=src --cov-report=html --cov-report=term
+
+# Code Quality
+lint: ## Run linting with flake8
+	flake8 src/ tests/ --max-line-length=88 --extend-ignore=E203,W503
+
+format: ## Format code with black and isort
+	black src/ tests/ *.py
+	isort src/ tests/ *.py
+
+format-check: ## Check code formatting
+	black --check src/ tests/ *.py
+	isort --check-only src/ tests/ *.py
+
+# Model Training and Prediction
+train: ## Train the iris classification model
+	python iris_classification_tutorial.py
+
+predict: ## Make predictions using trained model (requires model files)
+	python -c "from src.scripts.predict import main; main()"
+
+# Data and Models
+download-data: ## Download and prepare data (if needed)
+	mkdir -p data/raw data/processed
+	@echo "Data directories created"
+
+clean-models: ## Remove trained model files
+	rm -rf models/*.pkl models/*.joblib
+
+# Cleaning
+clean: ## Clean up cache and temporary files
+	find . -type f -name "*.pyc" -delete
+	find . -type d -name "__pycache__" -delete
+	find . -type d -name "*.egg-info" -exec rm -rf {} +
+	find . -type f -name "*.coverage" -delete
+	rm -rf .pytest_cache/
+	rm -rf htmlcov/
+	rm -rf build/
+	rm -rf dist/
+
+clean-all: clean clean-models ## Clean everything including models
+	rm -rf results/figures/* results/reports/*
+
+# Docker
+docker-build: ## Build Docker image
+	docker build -t iris-classifier:latest .
+
+docker-run: ## Run Docker container
+	docker run --rm -v $(PWD)/data:/app/data -v $(PWD)/models:/app/models iris-classifier:latest
+
+docker-jupyter: ## Run Jupyter notebook in Docker
+	docker-compose up jupyter
+
+docker-clean: ## Clean Docker images and containers
+	docker system prune -f
+	docker image prune -f
+
+# Documentation
+docs: ## Generate documentation
+	cd docs && make html
+
+docs-serve: ## Serve documentation locally
+	cd docs/_build/html && python -m http.server 8000
+
+# Development Environment
+setup-env: ## Set up development environment
+	python -m venv venv
+	@echo "Virtual environment created. Activate with: source venv/bin/activate"
+
+jupyter: ## Start Jupyter notebook
+	jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
+
+# Security
+security-check: ## Check for security vulnerabilities
+	safety check -r requirements.txt
+
+# Git hooks
+pre-commit: format lint test ## Run pre-commit checks
+
+# Continuous Integration
+ci: install-dev lint format-check test security-check ## Run CI pipeline locally
+
+# Deployment
+deploy-staging: ## Deploy to staging environment
+	@echo "Deploying to staging..."
+	# Add deployment commands here
+
+deploy-prod: ## Deploy to production environment
+	@echo "Deploying to production..."
+	# Add deployment commands here
+
+# Monitoring and Logging
+logs: ## View application logs
+	tail -f logs/iris_classification.log
+
+monitor: ## Monitor system resources during training
+	@echo "Monitoring system resources..."
+	# Add monitoring commands here
+
+# Benchmarking
+benchmark: ## Run performance benchmarks
+	python -m pytest tests/test_performance.py -v
+
+# Data Validation
+validate-data: ## Validate input data
+	python -c "from src.utils import validate_data; validate_data()"
+
+# Model Analysis
+analyze-model: ## Analyze trained model performance
+	python -c "from src.scripts.analyze import main; main()"
+
+# Export
+export-requirements: ## Export current environment to requirements.txt
+	pip freeze > requirements.txt
+
+# Version Management
+version-patch: ## Bump patch version
+	@echo "Current version:" 
+	@grep version setup.py
+	@echo "Bumping patch version..."
+
+version-minor: ## Bump minor version
+	@echo "Current version:"
+	@grep version setup.py
+	@echo "Bumping minor version..."
+
+version-major: ## Bump major version  
+	@echo "Current version:"
+	@grep version setup.py
+	@echo "Bumping major version..."
+
+# Quick commands for development
+dev-setup: setup-env install-dev ## Complete development setup
+	@echo "Development environment ready!"
+
+quick-test: ## Run quick smoke tests
+	python -c "import src; print('Import successful')"
+	python -c "import sklearn, pandas, numpy; print('Dependencies OK')"
+
+# Project Statistics
+stats: ## Show project statistics
+	@echo "Project Statistics:"
+	@echo "=================="
+	@find . -name "*.py" | grep -E "(src/|tests/)" | xargs wc -l | tail -1
+	@echo "Python files in src and tests"
+	@find . -name "*.py" | grep -v __pycache__ | wc -l | awk '{print $$1 " total Python files"}'
+	@git log --oneline | wc -l | awk '{print $$1 " commits"}'
