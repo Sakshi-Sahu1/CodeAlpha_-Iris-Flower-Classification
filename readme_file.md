@@ -280,9 +280,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-**Your Name** - your.email@example.com
+**Sakshi Sahu ** - sakshi100sahu@gmail.com
 
-Project Link: [https://github.com/yourusername/iris-classification-tutorial](https://github.com/yourusername/iris-classification-tutorial)
+Project Link: [https://github.com/Sakshi-Sahu1/CodeAlpha_-Iris-Flower-Classification](https://github.com/Sakshi-Sahu1/CodeAlpha_-Iris-Flower-Classification)
 
 ---
 
