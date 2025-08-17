@@ -1,4 +1,4 @@
-# Iris Flower Classification - Complete Machine Learning Tutorial
+# Iris Flower Classification - Complete Machine Learning Tutorial.
 # This tutorial covers all aspects of building a classification model
 
 import numpy as np
