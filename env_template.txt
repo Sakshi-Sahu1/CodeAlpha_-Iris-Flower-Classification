@@ -1,4 +1,4 @@
-# Environment Variables Template for Iris Classification Project
+## Environment Variables Template for Iris Classification Project
 # =============================================================
 # Copy this file to .env and fill in your specific values
 # Note: .env is included in .gitignore for security
