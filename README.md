@@ -1,4 +1,4 @@
-# 🌸 Iris Flower Classification - Complete Machine Learning Tutorial
+# 🌸 Iris Flower Classification - 
 
 A comprehensive machine learning tutorial that demonstrates the complete workflow of building a classification model using the famous Iris dataset. This project covers everything from data exploration to model deployment.
 
